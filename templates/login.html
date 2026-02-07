@@ -4,34 +4,85 @@
 <div class="card">
     <div class="text-center">
         <h1>Sign In</h1>
-        <p class="subtitle">Enter your credentials to continue to two-factor authentication</p>
+        <p class="subtitle">Test Duo Universal Prompt 2FA integration</p>
     </div>
 
     {% if error %}
-    <div class="alert alert-error">{{ error }}</div>
+    <div class="alert alert-error" role="alert" aria-live="polite">
+        {{ error }}
+    </div>
     {% endif %}
 
-    <form method="post" action="{{ url_for('login') }}" id="login-form">
+    <form method="post" action="{{ url_for('login') }}" id="login-form" novalidate>
         <div class="form-group">
             <label for="username">Username</label>
-            <input type="text" id="username" name="username" placeholder="Enter your username"
-                   value="{{ username|default('') }}" required autofocus>
+            <input
+                type="text"
+                id="username"
+                name="username"
+                placeholder="Enter any username"
+                value="{{ username|default('') }}"
+                required
+                autofocus
+                aria-describedby="username-hint"
+            >
+            <span class="field-hint" id="username-hint">Sandbox mode &mdash; any value accepted</span>
         </div>
         <div class="form-group">
-            <label for="password">Password <span style="color: var(--text-muted); text-transform: none; letter-spacing: normal;">(demo only)</span></label>
-            <input type="password" id="password" name="password" placeholder="Any value accepted">
+            <label for="password">
+                Password
+                <span class="dev-badge">Demo</span>
+            </label>
+            <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Any value"
+                aria-describedby="password-hint"
+            >
+            <span class="field-hint" id="password-hint">Password validation bypassed in demo mode</span>
         </div>
         <button type="submit" class="btn btn-primary" id="submit-btn">
-            Continue to 2FA &rarr;
+            <span id="btn-text">Continue to Duo 2FA</span>
+            <span id="btn-arrow" aria-hidden="true">&rarr;</span>
+            <span class="btn-spinner" style="display:none" aria-hidden="true"></span>
         </button>
     </form>
-</div>
 
+    <div class="info-note mt-3">
+        <strong>What happens next:</strong><br>
+        You'll be redirected to Duo's Universal Prompt to complete two-factor authentication with your enrolled device.
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
 <script>
-    document.getElementById('login-form').addEventListener('submit', function () {
-        var btn = document.getElementById('submit-btn');
+(function() {
+    var form = document.getElementById('login-form');
+    var btn = document.getElementById('submit-btn');
+    var btnText = document.getElementById('btn-text');
+    var btnArrow = document.getElementById('btn-arrow');
+    var spinner = btn.querySelector('.btn-spinner');
+
+    form.addEventListener('submit', function() {
         btn.classList.add('loading');
-        btn.textContent = 'Connecting to Duo\u2026';
+        btn.disabled = true;
+        btnText.textContent = 'Connecting to Duo';
+        btnArrow.style.display = 'none';
+        spinner.style.display = 'inline-block';
     });
+
+    var required = form.querySelectorAll('input[required]');
+    required.forEach(function(input) {
+        input.addEventListener('invalid', function(e) {
+            e.preventDefault();
+            input.setAttribute('aria-invalid', 'true');
+        });
+        input.addEventListener('input', function() {
+            input.removeAttribute('aria-invalid');
+        });
+    });
+})();
 </script>
 {% endblock %}

@@ -2,9 +2,27 @@
 {% block title %}Error — Duo 2FA Demo{% endblock %}
 {% block content %}
 <div class="card text-center">
-    <div style="font-size: 3rem; margin-bottom: 1rem;">&#x26A0;</div>
-    <h2>Something went wrong</h2>
-    <p class="subtitle">{{ error }}</p>
-    <a href="{{ url_for('index') }}" class="btn btn-secondary">Back to Login</a>
+    <div class="error-icon" role="img" aria-label="Error">&#x26A0;</div>
+    <h2>Authentication Error</h2>
+    <p class="subtitle">Something went wrong during the Duo verification process</p>
+
+    <div class="error-detail">
+        <div class="detail-comment">// Error details</div>
+        <div><span class="detail-key">"status"</span>: <span class="detail-string">"error"</span>,</div>
+        <div><span class="detail-key">"message"</span>: <span class="detail-string">"{{ error }}"</span>,</div>
+        <div><span class="detail-key">"timestamp"</span>: <span class="detail-value" id="error-ts">""</span>,</div>
+        <div><span class="detail-key">"endpoint"</span>: <span class="detail-string">"{{ request.endpoint or 'unknown' }}"</span></div>
+    </div>
+
+    <div class="action-group mt-3">
+        <a href="{{ url_for('index') }}" class="btn btn-primary">Try Again &rarr;</a>
+        <button onclick="window.location.reload()" class="btn btn-outline">Retry</button>
+    </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('error-ts').textContent = '"' + new Date().toISOString() + '"';
+</script>
 {% endblock %}
