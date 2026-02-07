@@ -24,6 +24,8 @@
                 value="{{ username|default('') }}"
                 required
                 autofocus
+                autocomplete="off"
+                data-1p-ignore
                 aria-describedby="username-hint"
             >
             <span class="field-hint" id="username-hint">Sandbox mode &mdash; any value accepted</span>
@@ -38,6 +40,8 @@
                 id="password"
                 name="password"
                 placeholder="Any value"
+                autocomplete="off"
+                data-1p-ignore
                 aria-describedby="password-hint"
             >
             <span class="field-hint" id="password-hint">Password validation bypassed in demo mode</span>
