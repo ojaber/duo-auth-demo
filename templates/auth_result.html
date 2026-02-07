@@ -69,11 +69,9 @@
         </div>
     </div>
 
-    <div class="action-group mt-3">
-        <form method="post" action="{{ url_for('logout') }}">
-            <button type="submit" class="btn btn-primary" style="width: 100%;">Test Again &rarr;</button>
-        </form>
-    </div>
+    <form method="post" action="{{ url_for('logout') }}" class="mt-3">
+        <button type="submit" class="btn btn-primary">Test Again &rarr;</button>
+    </form>
 </div>
 {% endblock %}
 
