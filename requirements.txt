@@ -1,0 +1,2 @@
+flask>=3.0
+duo_universal>=2.0

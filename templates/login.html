@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block title %}Sign In — Duo 2FA Demo{% endblock %}
+{% block content %}
+<div class="card">
+    <div class="text-center">
+        <h1>Sign In</h1>
+        <p class="subtitle">Enter your credentials to continue to two-factor authentication</p>
+    </div>
+
+    {% if error %}
+    <div class="alert alert-error">{{ error }}</div>
+    {% endif %}
+
+    <form method="post" action="{{ url_for('login') }}" id="login-form">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username"
+                   value="{{ username|default('') }}" required autofocus>
+        </div>
+        <div class="form-group">
+            <label for="password">Password <span style="color: var(--text-muted); text-transform: none; letter-spacing: normal;">(demo only)</span></label>
+            <input type="password" id="password" name="password" placeholder="Any value accepted">
+        </div>
+        <button type="submit" class="btn btn-primary" id="submit-btn">
+            Continue to 2FA &rarr;
+        </button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('login-form').addEventListener('submit', function () {
+        var btn = document.getElementById('submit-btn');
+        btn.classList.add('loading');
+        btn.textContent = 'Connecting to Duo\u2026';
+    });
+</script>
+{% endblock %}

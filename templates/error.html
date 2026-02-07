@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block title %}Error — Duo 2FA Demo{% endblock %}
+{% block content %}
+<div class="card text-center">
+    <div style="font-size: 3rem; margin-bottom: 1rem;">&#x26A0;</div>
+    <h2>Something went wrong</h2>
+    <p class="subtitle">{{ error }}</p>
+    <a href="{{ url_for('index') }}" class="btn btn-secondary">Back to Login</a>
+</div>
+{% endblock %}
