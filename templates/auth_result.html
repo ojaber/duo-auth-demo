@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}Dashboard — Duo 2FA Demo{% endblock %}
+{% block title %}Auth Result — Duo 2FA Demo{% endblock %}
 {% block content %}
 <div class="card text-center">
     <div class="success-icon" role="img" aria-label="Success">&#x2713;</div>
@@ -70,9 +70,8 @@
     </div>
 
     <div class="action-group mt-3">
-        <a href="{{ url_for('index') }}" class="btn btn-primary">Test Again &rarr;</a>
         <form method="post" action="{{ url_for('logout') }}">
-            <button type="submit" class="btn btn-outline" style="width: 100%;">&larr; Sign Out</button>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Test Again &rarr;</button>
         </form>
     </div>
 </div>

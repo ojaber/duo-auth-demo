@@ -73,7 +73,7 @@ def index():
     if config_error:
         return render_template("error.html", error=config_error), 500
     if session.get("authenticated_user"):
-        return redirect(url_for("dashboard"))
+        return redirect(url_for("auth_result"))
     return render_template("login.html")
 
 
@@ -142,11 +142,11 @@ def duo_callback():
     session["authenticated_user"] = username
     session["auth_result"] = result if isinstance(result, dict) else {"raw": str(result)}
 
-    return redirect(url_for("dashboard"))
+    return redirect(url_for("auth_result"))
 
 
-@app.route("/dashboard")
-def dashboard():
+@app.route("/auth-result")
+def auth_result():
     if config_error:
         return render_template("error.html", error=config_error), 500
 
@@ -155,7 +155,7 @@ def dashboard():
         return redirect(url_for("index"))
 
     return render_template(
-        "dashboard.html",
+        "auth_result.html",
         user=user,
         auth_result=session.get("auth_result"),
     )
