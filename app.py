@@ -140,7 +140,7 @@ def duo_callback():
 
     # Set authenticated session
     session["authenticated_user"] = username
-    session["auth_result"] = result.get("response", {}) if isinstance(result, dict) else str(result)
+    session["auth_result"] = result if isinstance(result, dict) else {"raw": str(result)}
 
     return redirect(url_for("dashboard"))
 
